@@ -75,7 +75,7 @@ public class Photo extends DataObject {
 	protected String ownerId;
 	
 	/**
-	 * 
+	 * represents the location in which the photo was taken
 	 */
 	public Location location;
 	
