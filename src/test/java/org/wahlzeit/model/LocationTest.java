@@ -20,6 +20,15 @@ public class LocationTest {
 	/**
 	 * 
 	 */
+	@Test (expected = IllegalArgumentException.class)
+	public void testCoordinateIllegalArgument() {
+		Coordinate coordinateA = new Coordinate(91, -20);
+	}
+	
+	
+	/**
+	 * 
+	 */
 	@Test
 	public void testGetDistanceZero() {
 		Coordinate coordinateA = new Coordinate(20, 30);

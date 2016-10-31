@@ -5,6 +5,11 @@ package org.wahlzeit.model;
  *
  */
 public class Coordinate {
+	private final double LONGITUDE_MIN = -180;
+	private final double LONGITUDE_MAX = +180;
+	private final double LATITUDE_MIN = -90;
+	private final double LATITUDE_MAX = +90;
+	
 	/** radius of earth (assuming it would be a sphere)
 	 */
 	private final int EARTH_RADIUS = 6371;
@@ -23,7 +28,13 @@ public class Coordinate {
 	 */
 	private double longitude;
 	
-	public Coordinate(double latitude, double longitude){
+	public Coordinate(double latitude, double longitude) throws IllegalArgumentException{
+		if(longitude > LONGITUDE_MAX || longitude < LONGITUDE_MIN){
+			throw new IllegalArgumentException("longitude has to be between "+LONGITUDE_MIN+" and "+LONGITUDE_MAX);
+		}
+		if(latitude > LATITUDE_MAX || latitude < LATITUDE_MIN){
+			throw new IllegalArgumentException("latitude has to be between "+LATITUDE_MIN+" and "+LATITUDE_MAX);
+		}
 		this.latitude = latitude;
 		this.longitude = longitude;
 	}
