@@ -5,14 +5,14 @@ package org.wahlzeit.model;
  *
  */
 public class Coordinate {
-	private final double LONGITUDE_MIN = -180;
-	private final double LONGITUDE_MAX = +180;
-	private final double LATITUDE_MIN = -90;
-	private final double LATITUDE_MAX = +90;
+	private static final double LONGITUDE_MIN = -180;
+	private static final double LONGITUDE_MAX = +180;
+	private static final double LATITUDE_MIN = -90;
+	private static final double LATITUDE_MAX = +90;
 	
-	/** radius of earth (assuming it would be a sphere)
+	/** radius of earth (assuming it would be a sphere) in kilometer
 	 */
-	private final int EARTH_RADIUS = 6371;
+	private final double EARTH_KM_RADIUS = 6371.0;
 	
 	//variables for the latitude and longitude on earths surface
 	/**
@@ -45,12 +45,13 @@ public class Coordinate {
 	 * @return the kilometer on earths surface between this coordinate and otherCoordinate
 	 */
 	public double getDistance(Coordinate otherCoordinate) {
-		double difLongitude = (otherCoordinate.longitude-longitude)%360;
+		//casting values to radians for sinus and cosinus
+		double difLongitude = (otherCoordinate.longitude-longitude);
 		double difLongitudeToRadians = Math.toRadians(difLongitude);
 		double latitudeToRadians = Math.toRadians(latitude);
 		double otherLatitudeToRadians = Math.toRadians(otherCoordinate.latitude);
 		//angle between the two Coordinates
 		double sigma = Math.acos(Math.sin(latitudeToRadians)*Math.sin(otherLatitudeToRadians)+Math.cos(latitudeToRadians)*Math.cos(otherLatitudeToRadians)*Math.cos(difLongitudeToRadians));
-		return sigma*EARTH_RADIUS;
+		return sigma*EARTH_KM_RADIUS;
 	}
 }

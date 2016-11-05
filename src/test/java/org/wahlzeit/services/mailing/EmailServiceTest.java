@@ -20,20 +20,22 @@
 package org.wahlzeit.services.mailing;
 
 import junit.framework.TestCase;
+
+import org.junit.Before;
 import org.wahlzeit.services.EmailAddress;
 
 /**
- *
+ * JUnit-Test class for EmailService 
  */
 public class EmailServiceTest extends TestCase {
 
 	/**
-	 *
+	 * mocked emailService
 	 */
 	protected EmailService emailService = null;
 
 	/**
-	 *
+	 * test-mailaddress
 	 */
 	protected EmailAddress validAddress;
 
@@ -41,13 +43,24 @@ public class EmailServiceTest extends TestCase {
 	/**
 	 *
 	 */
-	@Override
+	@Before
 	protected void setUp() throws Exception {
 		super.setUp();
-
+		
+		//override the EmailServiceManagers default Service to the MockService
+		EmailServiceManager.getInstance().defaultService = new LoggingEmailService(new MockEmailService());
+		
 		emailService = EmailServiceManager.getDefaultService();
 
 		validAddress = EmailAddress.getFromString("test@test.de");
+	}
+	
+	/**
+	 * 
+	 */
+	@Override
+	protected void tearDown() throws Exception {
+		//nothing to tear down
 	}
 
 	/**

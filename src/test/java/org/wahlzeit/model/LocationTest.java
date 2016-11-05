@@ -66,11 +66,11 @@ public class LocationTest {
 	 */
 	@Test
 	public void testGetDistanceLongitude() {
-		Coordinate coordinateA = new Coordinate(0, -180);
+		Coordinate coordinateA = new Coordinate(0, 180);
 		Coordinate coordinateB = new Coordinate(0, -90);
 		Coordinate coordinateC = new Coordinate(0, 0);
 		Coordinate coordinateD = new Coordinate(0, 90);
-		Coordinate coordinateE = new Coordinate(0, 180);
+		Coordinate coordinateE = new Coordinate(0, -180);
 		assertEquals(coordinateA.getDistance(coordinateB), 6371*Math.PI/2, 0.1);
 		assertEquals(coordinateA.getDistance(coordinateC), 6371*Math.PI, 0.1);
 		assertEquals(coordinateA.getDistance(coordinateD), 6371*Math.PI/2, 0.1);

@@ -9,7 +9,7 @@ public class Location {
 	/**
 	 * represents the polar Coordinate of this location
 	 */
-	public Coordinate coordinate;
+	private Coordinate coordinate;
 	
 	/**
 	 * creates a new Location for the given Latitude and Longitude
