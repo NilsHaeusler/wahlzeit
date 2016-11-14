@@ -7,7 +7,8 @@ import org.wahlzeit.model.persistence.ModelPersistenceSuite;
 
 @RunWith(Suite.class)
 @SuiteClasses({ AccessRightsTest.class, FlagReasonTest.class, GenderTest.class, GuestTest.class, LocationTest.class,
-		PhotoFilterTest.class, TagsTest.class, UserStatusTest.class, ValueTest.class, ModelPersistenceSuite.class })
+		PhotoFilterTest.class, TagsTest.class, UserStatusTest.class, ValueTest.class, ModelPersistenceSuite.class, 
+		CarPhotoManagerTest.class, CarPhotoTest.class, CarPhotoFactoryTest.class })
 
 public class ModelSuite {
 
