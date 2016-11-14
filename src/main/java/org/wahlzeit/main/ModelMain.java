@@ -25,8 +25,8 @@ import java.io.FileFilter;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-import org.wahlzeit.model.CarPhotoFactory;
-import org.wahlzeit.model.CarPhotoManager;
+import org.wahlzeit.model.car.CarPhotoFactory;
+import org.wahlzeit.model.car.CarPhotoManager;
 import org.wahlzeit.model.GlobalsManager;
 import org.wahlzeit.model.PhotoCaseManager;
 import org.wahlzeit.model.PhotoManager;
