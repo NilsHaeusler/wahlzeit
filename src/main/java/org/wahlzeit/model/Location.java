@@ -17,7 +17,17 @@ public class Location {
 	 * @param longitude
 	 */
 	public Location(double latitude, double longitude){
-		coordinate = new Coordinate(latitude, longitude);
+		coordinate = new SphericCoordinate(latitude, longitude);
+	}
+	
+	/**
+	 * creates a new Location for the given x, y and z Cartesian Coordinates
+	 * @param x
+	 * @param y
+	 * @param z
+	 */
+	public Location(double x, double y, double z){
+		coordinate = new CartesianCoordinate(x, y, z);
 	}
 	
 	/**
@@ -27,7 +37,7 @@ public class Location {
 	public Location(Coordinate coordinate){
 		this.coordinate = coordinate;
 	}
-
+	
 	/**
 	 * gets the distance between this Location and an other Location
 	 * @param otherCoordinate the coordinates of an other Location
