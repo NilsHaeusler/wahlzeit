@@ -1,5 +1,7 @@
 package org.wahlzeit.model;
 
+import com.googlecode.objectify.annotation.Ignore;
+
 /**
  * A Location represents a location on earth.
  *
@@ -9,6 +11,7 @@ public class Location {
 	/**
 	 * represents the Coordinate of this location
 	 */
+	@Ignore
 	private Coordinate coordinate;
 	
 	/**

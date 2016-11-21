@@ -1,7 +1,7 @@
 package org.wahlzeit.model;
 
 public class CartesianCoordinate implements Coordinate{
-	protected double x, y, z;
+	protected final double x, y, z;
 	
 	public CartesianCoordinate(double x, double y, double z) {
 		this.x = x;
@@ -19,12 +19,14 @@ public class CartesianCoordinate implements Coordinate{
 	}
 
 	@Override
-	public double getDistance(Coordinate other) {
+	public double getDistance(Coordinate other) throws IllegalArgumentException {
 		CartesianCoordinate otherCartesian;
 		if(other instanceof CartesianCoordinate){
 			otherCartesian = (CartesianCoordinate) other;
-		}else{
+		}else if(other instanceof SphericCoordinate){
 			otherCartesian = new CartesianCoordinate((SphericCoordinate) other);
+		}else{
+			throw new IllegalArgumentException("Coordinates not comparable");
 		}
 		double difX = Math.abs(x-otherCartesian.x);
 		double difY = Math.abs(y-otherCartesian.y);

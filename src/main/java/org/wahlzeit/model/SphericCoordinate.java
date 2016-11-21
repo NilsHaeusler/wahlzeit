@@ -20,17 +20,17 @@ public class SphericCoordinate implements Coordinate {
 	 * positive means North; negative means South (31°45'N would be 31.75)
 	 * range should be -90 to +90
 	 */
-	protected double latitude;
+	protected final double latitude;
 	/**
 	 * Longitude on earth as double value
 	 * positive means East; negative means West (31°45'E would be 31.75)
 	 * range should be -180 to +180
 	 */
-	protected double longitude;
+	protected final double longitude;
 	/**
 	 * should be Earth Radius for any point on surface
 	 */
-	protected double radius;
+	protected final double radius;
 	
 	public SphericCoordinate(double latitude, double longitude) throws IllegalArgumentException{
 		this(latitude, longitude, EARTH_KM_RADIUS);
@@ -75,6 +75,14 @@ public class SphericCoordinate implements Coordinate {
 		this.longitude = longitude;
 		this.radius = radius;
 	}
+	
+	private boolean isOnEarth(){
+		if(radius > EARTH_KM_RADIUS-1 && radius < EARTH_KM_RADIUS+1){
+			return true;
+		}else{
+			return false;
+		}
+	}
 
 	/**
 	 * gets the distance between this Coordinate and an other Coordinate
@@ -82,12 +90,18 @@ public class SphericCoordinate implements Coordinate {
 	 * @return the kilometer on earths surface between this coordinate and otherCoordinate
 	 */
 	@Override
-	public double getDistance(Coordinate other) {
+	public double getDistance(Coordinate other) throws IllegalArgumentException{
 		SphericCoordinate otherSpheric;
 		if(other instanceof SphericCoordinate){
 			otherSpheric = (SphericCoordinate) other;
-		}else{
+		}else if(other instanceof CartesianCoordinate){
 			otherSpheric = new SphericCoordinate((CartesianCoordinate) other);
+			if(!otherSpheric.isOnEarth()){
+				//shortest distance
+				return other.getDistance(this);
+			}
+		}else{
+			throw new IllegalArgumentException("Coordinates not comparable");
 		}
 		//casting values to radians for sinus and cosinus
 		double difLongitude = (otherSpheric.longitude-longitude);
