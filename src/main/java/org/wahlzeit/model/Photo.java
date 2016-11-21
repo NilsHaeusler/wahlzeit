@@ -77,7 +77,7 @@ public class Photo extends DataObject {
 	/**
 	 * represents the location in which the photo was taken
 	 */
-	private Location location;
+	private Location location = new Location(0.0, 0.0);
 
 	/**
 	 * Each photo can be viewed in different sizes (XS, S, M, L, XL)

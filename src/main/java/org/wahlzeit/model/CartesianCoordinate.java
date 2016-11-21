@@ -21,7 +21,7 @@ public class CartesianCoordinate implements Coordinate{
 	@Override
 	public double getDistance(Coordinate other) {
 		CartesianCoordinate otherCartesian;
-		if(other.getClass() == CartesianCoordinate.class){
+		if(other instanceof CartesianCoordinate){
 			otherCartesian = (CartesianCoordinate) other;
 		}else{
 			otherCartesian = new CartesianCoordinate((SphericCoordinate) other);

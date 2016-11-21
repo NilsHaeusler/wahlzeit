@@ -7,7 +7,7 @@ package org.wahlzeit.model;
 public class Location {
 	
 	/**
-	 * represents the polar Coordinate of this location
+	 * represents the Coordinate of this location
 	 */
 	private Coordinate coordinate;
 	

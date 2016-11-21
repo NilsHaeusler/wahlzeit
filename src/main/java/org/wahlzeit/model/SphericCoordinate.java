@@ -84,7 +84,7 @@ public class SphericCoordinate implements Coordinate {
 	@Override
 	public double getDistance(Coordinate other) {
 		SphericCoordinate otherSpheric;
-		if(other.getClass() == SphericCoordinate.class){
+		if(other instanceof SphericCoordinate){
 			otherSpheric = (SphericCoordinate) other;
 		}else{
 			otherSpheric = new SphericCoordinate((CartesianCoordinate) other);
