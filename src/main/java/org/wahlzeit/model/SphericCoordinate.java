@@ -4,7 +4,7 @@ package org.wahlzeit.model;
  * A Coordinate represents polar coordinates of one location on earth
  *
  */
-public class SphericCoordinate implements Coordinate {
+public class SphericCoordinate extends AbstractCoordinate {
 	private static final double LONGITUDE_MIN = -180;
 	private static final double LONGITUDE_MAX = +180;
 	private static final double LATITUDE_MIN = -90;
@@ -51,65 +51,25 @@ public class SphericCoordinate implements Coordinate {
 		this.radius = radius;
 	}
 	
-	public SphericCoordinate(CartesianCoordinate other) {
-		double x = other.x;
-		double y = other.y;
-		double z = other.z;
-		
-		//convert to spheric
-		double radius = Math.sqrt(x*x+y*y+z*z);
-		double longitude = Math.signum(x)*Math.toDegrees(Math.atan(Math.sqrt(x*x+y*y)/z));
-		double latitude = Math.toDegrees(Math.atan(y/x));
-		//check for invalid arguments
-		if(longitude > LONGITUDE_MAX || longitude < LONGITUDE_MIN){
-			throw new IllegalArgumentException("longitude has to be between "+LONGITUDE_MIN+" and "+LONGITUDE_MAX);
-		}
-		if(latitude > LATITUDE_MAX || latitude < LATITUDE_MIN){
-			throw new IllegalArgumentException("latitude has to be between "+LATITUDE_MIN+" and "+LATITUDE_MAX);
-		}
-		if(radius < 0){
-			throw new IllegalArgumentException("radius has to be positiv");
-		}
-		//set variables
-		this.latitude = latitude;
-		this.longitude = longitude;
-		this.radius = radius;
-	}
-	
-	private boolean isOnEarth(){
-		if(radius > EARTH_KM_RADIUS-1 && radius < EARTH_KM_RADIUS+1){
-			return true;
-		}else{
-			return false;
-		}
+	public CartesianCoordinate asCartesianCoordinate(){
+		return new CartesianCoordinate(getX(), getY(), getZ());
 	}
 
-	/**
-	 * gets the distance between this Coordinate and an other Coordinate
-	 * @param other the coordinates of an other Location
-	 * @return the kilometer on earths surface between this coordinate and otherCoordinate
-	 */
 	@Override
-	public double getDistance(Coordinate other) throws IllegalArgumentException{
-		SphericCoordinate otherSpheric;
-		if(other instanceof SphericCoordinate){
-			otherSpheric = (SphericCoordinate) other;
-		}else if(other instanceof CartesianCoordinate){
-			otherSpheric = new SphericCoordinate((CartesianCoordinate) other);
-			if(!otherSpheric.isOnEarth()){
-				//shortest distance
-				return other.getDistance(this);
-			}
-		}else{
-			throw new IllegalArgumentException("Coordinates not comparable");
-		}
-		//casting values to radians for sinus and cosinus
-		double difLongitude = (otherSpheric.longitude-longitude);
-		double difLongitudeToRadians = Math.toRadians(difLongitude);
-		double latitudeToRadians = Math.toRadians(latitude);
-		double otherLatitudeToRadians = Math.toRadians(otherSpheric.latitude);
-		//angle between the two Coordinates
-		double sigma = Math.acos(Math.sin(latitudeToRadians)*Math.sin(otherLatitudeToRadians)+Math.cos(latitudeToRadians)*Math.cos(otherLatitudeToRadians)*Math.cos(difLongitudeToRadians));
-		return sigma*radius;
+	public double getX() {
+		double x = radius*Math.sin(Math.toRadians(longitude))*Math.cos(Math.toRadians(latitude));
+		return x;
+	}
+
+	@Override
+	public double getY() {
+		double y = radius*Math.sin(Math.toRadians(latitude))*Math.sin(Math.toRadians(longitude));
+		return y;
+	}
+
+	@Override
+	public double getZ() {
+		double z = radius*Math.cos(Math.toRadians(longitude));
+		return z;
 	}
 }
