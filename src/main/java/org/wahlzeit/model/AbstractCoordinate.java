@@ -2,6 +2,12 @@ package org.wahlzeit.model;
 
 public abstract class AbstractCoordinate implements Coordinate{
 	
+	/**
+	 * calculates the cartesian distance between this coordinate and an other coordinate
+	 * the distance is returned in kilometers 
+	 * @param other
+	 * @return distance
+	 */
 	public double getDistance(Coordinate other) throws IllegalArgumentException{
 		if(other instanceof AbstractCoordinate){
 			double difX = Math.abs(this.getX()-((AbstractCoordinate) other).getX());
@@ -17,7 +23,7 @@ public abstract class AbstractCoordinate implements Coordinate{
 	 * Coordinates are considered equal if they represent the same spot
 	 * The type however may differ
 	 * @param other
-	 * @return
+	 * @return true if they are equal
 	 */
 	public boolean isEqual(Coordinate other) {
 		if(other instanceof AbstractCoordinate){

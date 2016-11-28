@@ -10,8 +10,7 @@ public class SphericCoordinate extends AbstractCoordinate {
 	private static final double LATITUDE_MIN = -90;
 	private static final double LATITUDE_MAX = +90;
 	
-	/** radius of earth (assuming it would be a sphere) in kilometer
-	 */
+	/** radius of earth (assuming it would be a sphere) in kilometer*/
 	private final static double EARTH_KM_RADIUS = 6371.0;
 	
 	//variables for the latitude and longitude on earths surface
@@ -27,9 +26,7 @@ public class SphericCoordinate extends AbstractCoordinate {
 	 * range should be -180 to +180
 	 */
 	protected final double longitude;
-	/**
-	 * should be Earth Radius for any point on surface
-	 */
+	/** should be Earth Radius for any point on surface */
 	protected final double radius;
 	
 	public SphericCoordinate(double latitude, double longitude) throws IllegalArgumentException{
@@ -37,18 +34,32 @@ public class SphericCoordinate extends AbstractCoordinate {
 	}
 	
 	public SphericCoordinate(double latitude, double longitude, double radius) throws IllegalArgumentException{
-		if(longitude > LONGITUDE_MAX || longitude < LONGITUDE_MIN){
-			throw new IllegalArgumentException("longitude has to be between "+LONGITUDE_MIN+" and "+LONGITUDE_MAX);
-		}
-		if(latitude > LATITUDE_MAX || latitude < LATITUDE_MIN){
-			throw new IllegalArgumentException("latitude has to be between "+LATITUDE_MIN+" and "+LATITUDE_MAX);
-		}
-		if(radius < 0){
-			throw new IllegalArgumentException("radius has to be positiv");
-		}
+		//assert parameters in valid range
+		assertLongitude(longitude);
+		assertLatitude(latitude);
+		assertRadius(radius);
+		
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.radius = radius;
+	}
+	
+	private void assertRadius(double radius) throws IllegalArgumentException{
+		if(radius < 0){
+			throw new IllegalArgumentException("radius has to be positiv");
+		}
+	}
+
+	private void assertLongitude(double longitude) throws IllegalArgumentException{
+		if(longitude > LONGITUDE_MAX || longitude < LONGITUDE_MIN){
+			throw new IllegalArgumentException("longitude has to be between "+LONGITUDE_MIN+" and "+LONGITUDE_MAX);
+		}
+	}
+
+	private void assertLatitude(double latitude) throws IllegalArgumentException{
+		if(latitude > LATITUDE_MAX || latitude < LATITUDE_MIN){
+			throw new IllegalArgumentException("latitude has to be between "+LATITUDE_MIN+" and "+LATITUDE_MAX);
+		}
 	}
 	
 	public CartesianCoordinate asCartesianCoordinate(){
