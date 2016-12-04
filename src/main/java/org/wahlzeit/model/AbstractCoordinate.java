@@ -9,14 +9,20 @@ public abstract class AbstractCoordinate implements Coordinate{
 	 * @return distance
 	 */
 	public double getDistance(Coordinate other) throws IllegalArgumentException{
-		if(other instanceof AbstractCoordinate){
-			double difX = Math.abs(this.getX()-((AbstractCoordinate) other).getX());
-			double difY = Math.abs(this.getY()-((AbstractCoordinate) other).getY());
-			double difZ = Math.abs(this.getZ()-((AbstractCoordinate) other).getZ());
-			return Math.sqrt(difX*difX+difY*difY+difZ*difZ);
-		}else{
-			throw new IllegalArgumentException("Coordinate not compatible");
-		}
+		//invariants
+		assertClassInvariants();
+		//preconditions
+		assertNotNull(other);
+		assertIsInstanceOfAbstractCoordinate(other);
+		
+		double difX = Math.abs(this.getX()-((AbstractCoordinate) other).getX());
+		double difY = Math.abs(this.getY()-((AbstractCoordinate) other).getY());
+		double difZ = Math.abs(this.getZ()-((AbstractCoordinate) other).getZ());
+		double result = Math.sqrt(difX*difX+difY*difY+difZ*difZ);
+				
+		//invariants
+		assertClassInvariants();
+		return result;
 	}
 	
 	/**
@@ -26,23 +32,48 @@ public abstract class AbstractCoordinate implements Coordinate{
 	 * @return true if they are equal
 	 */
 	public boolean isEqual(Coordinate other) {
-		if(other instanceof AbstractCoordinate){
-			if(this.getX() != ((AbstractCoordinate) other).getX()){
-				return false;
-			}else if(this.getY() != ((AbstractCoordinate) other).getY()){
-				return false;
-			}else if(this.getZ() != ((AbstractCoordinate) other).getZ()){
-				return false;
-			}else{
-				return true;
-			}
+		//invariants
+		assertClassInvariants();
+		//preconditions
+		assertNotNull(other);
+		assertIsInstanceOfAbstractCoordinate(other);
+		
+		boolean returnValue;
+		if(this.getX() != ((AbstractCoordinate) other).getX()){
+			returnValue = false;
+		}else if(this.getY() != ((AbstractCoordinate) other).getY()){
+			returnValue = false;
+		}else if(this.getZ() != ((AbstractCoordinate) other).getZ()){
+			returnValue = false;
 		}else{
+			returnValue = true;
+		}
+		
+		//invariants
+		assertClassInvariants();
+		return returnValue;
+	}
+
+	/** @return Cartesian x value */
+	public abstract double getX();
+	/** @return Cartesian y value */
+	public abstract double getY();
+	/** @return Cartesian z value */
+	public abstract double getZ();
+	
+	private void assertClassInvariants(){
+		
+	}
+
+	private void assertNotNull(Coordinate other) throws IllegalArgumentException{
+		if(other == null){
+			throw new IllegalArgumentException("Coordinate must not be null");
+		}
+	}
+	
+	private void assertIsInstanceOfAbstractCoordinate(Coordinate other) throws IllegalArgumentException{
+		if(!(other instanceof AbstractCoordinate)){
 			throw new IllegalArgumentException("Coordinate not compatible");
 		}
 	}
-
-	public abstract double getX();
-	public abstract double getY();
-	public abstract double getZ();
-	
 }

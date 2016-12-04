@@ -35,28 +35,28 @@ public class SphericCoordinate extends AbstractCoordinate {
 	
 	public SphericCoordinate(double latitude, double longitude, double radius) throws IllegalArgumentException{
 		//assert parameters in valid range
-		assertLongitude(longitude);
-		assertLatitude(latitude);
-		assertRadius(radius);
+		assertIsValidLongitude(longitude);
+		assertIsValidLatitude(latitude);
+		assertIsValidRadius(radius);
 		
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.radius = radius;
 	}
 	
-	private void assertRadius(double radius) throws IllegalArgumentException{
+	private void assertIsValidRadius(double radius) throws IllegalArgumentException{
 		if(radius < 0){
 			throw new IllegalArgumentException("radius has to be positiv");
 		}
 	}
 
-	private void assertLongitude(double longitude) throws IllegalArgumentException{
+	private void assertIsValidLongitude(double longitude) throws IllegalArgumentException{
 		if(longitude > LONGITUDE_MAX || longitude < LONGITUDE_MIN){
 			throw new IllegalArgumentException("longitude has to be between "+LONGITUDE_MIN+" and "+LONGITUDE_MAX);
 		}
 	}
 
-	private void assertLatitude(double latitude) throws IllegalArgumentException{
+	private void assertIsValidLatitude(double latitude) throws IllegalArgumentException{
 		if(latitude > LATITUDE_MAX || latitude < LATITUDE_MIN){
 			throw new IllegalArgumentException("latitude has to be between "+LATITUDE_MIN+" and "+LATITUDE_MAX);
 		}
