@@ -3,17 +3,17 @@ package org.wahlzeit.model;
 public abstract class AbstractCoordinate implements Coordinate{
 	
 	/**
-	 * calculates the cartesian distance between this coordinate and an other coordinate
+	 * calculates the Cartesian distance between this coordinate and an other coordinate
 	 * the distance is returned in kilometers 
 	 * @param other
 	 * @return distance
 	 */
-	public double getDistance(Coordinate other) throws IllegalArgumentException{
+	public double getDistance(Coordinate other){
 		//invariants
 		try{
 			assertClassInvariants();
 		}catch(Exception e){
-			throw new IllegalStateException(e);
+			throw e;
 		}
 		//preconditions
 		try{
@@ -23,10 +23,7 @@ public abstract class AbstractCoordinate implements Coordinate{
 			throw e;
 		}
 		
-		double difX = Math.abs(this.getX()-((AbstractCoordinate) other).getX());
-		double difY = Math.abs(this.getY()-((AbstractCoordinate) other).getY());
-		double difZ = Math.abs(this.getZ()-((AbstractCoordinate) other).getZ());
-		double distance = Math.sqrt(difX*difX+difY*difY+difZ*difZ);
+		double distance = doCalculateDistance((AbstractCoordinate) other);
 		
 		//postConditions
 		try{
@@ -38,9 +35,17 @@ public abstract class AbstractCoordinate implements Coordinate{
 		try {
 			assertClassInvariants();
 		} catch (Exception e) {
-			throw new IllegalStateException(e);
+			throw e;
 		}
 		//return
+		return distance;
+	}
+
+	private double doCalculateDistance(AbstractCoordinate other) {
+		double difX = Math.abs(this.getX()-other.getX());
+		double difY = Math.abs(this.getY()-other.getY());
+		double difZ = Math.abs(this.getZ()-other.getZ());
+		double distance = Math.sqrt(difX*difX+difY*difY+difZ*difZ);
 		return distance;
 	}
 
@@ -50,12 +55,12 @@ public abstract class AbstractCoordinate implements Coordinate{
 	 * @param other
 	 * @return true if they are equal
 	 */
-	public boolean isEqual(Coordinate other) throws IllegalArgumentException{
+	public boolean isEqual(Coordinate other){
 		//invariants
 		try {
 			assertClassInvariants();
 		} catch (Exception e) {
-			throw new IllegalStateException(e);
+			throw e;
 		}
 		//preconditions
 		try{
@@ -65,25 +70,30 @@ public abstract class AbstractCoordinate implements Coordinate{
 			throw e;
 		}
 		
-		//compare x, y and z values
-		boolean returnValue;
-		if(this.getX() != ((AbstractCoordinate) other).getX()){
-			returnValue = false;
-		}else if(this.getY() != ((AbstractCoordinate) other).getY()){
-			returnValue = false;
-		}else if(this.getZ() != ((AbstractCoordinate) other).getZ()){
-			returnValue = false;
-		}else{
-			returnValue = true;
-		}
+		boolean returnValue = doIsEqual((AbstractCoordinate) other);
 		
 		//invariants
 		try {
 			assertClassInvariants();
 		} catch (Exception e) {
-			throw new IllegalStateException(e);
+			throw e;
 		}
 		//return
+		return returnValue;
+	}
+
+	private boolean doIsEqual(AbstractCoordinate other) {
+		boolean returnValue;
+		//compare x, y and z values
+		if(this.getX() != other.getX()){
+			returnValue = false;
+		}else if(this.getY() != other.getY()){
+			returnValue = false;
+		}else if(this.getZ() != other.getZ()){
+			returnValue = false;
+		}else{
+			returnValue = true;
+		}
 		return returnValue;
 	}
 
@@ -94,7 +104,7 @@ public abstract class AbstractCoordinate implements Coordinate{
 	/** @return Cartesian z value */
 	public abstract double getZ();
 	
-	private void assertClassInvariants() throws Exception{
+	private void assertClassInvariants() throws IllegalStateException{
 		//no class Invariants yet
 	}
 
