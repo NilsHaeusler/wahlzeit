@@ -9,7 +9,6 @@ public class CarPhotoFactory extends PhotoFactory {
 
 	protected CarPhotoFactory() {
 		super();
-		//TODO check if correctInstance is set
 	}
 
 	public static synchronized PhotoFactory getInstance() {
