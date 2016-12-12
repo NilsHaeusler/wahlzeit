@@ -22,6 +22,13 @@ public class CarPhotoFactory extends PhotoFactory {
 
 	@Override
 	public Photo createPhoto(PhotoId id) {
+		assertPhotoId(id);
 		return new CarPhoto(id);
+	}
+
+	private void assertPhotoId(PhotoId id) {
+		if(id == null){
+			throw new IllegalArgumentException("PhotoId must not be null");
+		}
 	}
 }

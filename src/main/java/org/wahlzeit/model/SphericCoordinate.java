@@ -35,13 +35,9 @@ public class SphericCoordinate extends AbstractCoordinate {
 	
 	public SphericCoordinate(double latitude, double longitude, double radius) throws IllegalArgumentException{
 		//assert parameters in valid range
-		try{
-			assertIsValidLongitude(longitude);
-			assertIsValidLatitude(latitude);
-			assertIsValidRadius(radius);
-		}catch (IllegalArgumentException e) {
-			throw e;
-		}
+		assertIsValidLongitude(longitude);
+		assertIsValidLatitude(latitude);
+		assertIsValidRadius(radius);
 		
 		this.latitude = latitude;
 		this.longitude = longitude;

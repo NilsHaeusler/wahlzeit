@@ -10,33 +10,17 @@ public abstract class AbstractCoordinate implements Coordinate{
 	 */
 	public double getDistance(Coordinate other){
 		//invariants
-		try{
-			assertClassInvariants();
-		}catch(Exception e){
-			throw e;
-		}
+		assertClassInvariants();
 		//preconditions
-		try{
-			assertNotNull(other);
-			assertIsInstanceOfAbstractCoordinate(other);
-		}catch (IllegalArgumentException e) {
-			throw e;
-		}
+		assertNotNull(other);
+		assertIsInstanceOfAbstractCoordinate(other);
 		
 		double distance = doCalculateDistance((AbstractCoordinate) other);
 		
 		//postConditions
-		try{
-			assertDistanceIsNotNegative(distance);
-		}catch (RuntimeException e) {
-			throw e;
-		}
+		assertDistanceIsNotNegative(distance);
 		//invariants
-		try {
-			assertClassInvariants();
-		} catch (Exception e) {
-			throw e;
-		}
+		assertClassInvariants();
 		//return
 		return distance;
 	}
@@ -57,27 +41,16 @@ public abstract class AbstractCoordinate implements Coordinate{
 	 */
 	public boolean isEqual(Coordinate other){
 		//invariants
-		try {
-			assertClassInvariants();
-		} catch (Exception e) {
-			throw e;
-		}
+		assertClassInvariants();
 		//preconditions
-		try{
-			assertNotNull(other);
-			assertIsInstanceOfAbstractCoordinate(other);
-		}catch (IllegalArgumentException e) {
-			throw e;
-		}
+		assertNotNull(other);
+		assertIsInstanceOfAbstractCoordinate(other);
 		
 		boolean returnValue = doIsEqual((AbstractCoordinate) other);
 		
 		//invariants
-		try {
-			assertClassInvariants();
-		} catch (Exception e) {
-			throw e;
-		}
+		assertClassInvariants();
+		
 		//return
 		return returnValue;
 	}
@@ -120,7 +93,7 @@ public abstract class AbstractCoordinate implements Coordinate{
 		}
 	}
 	
-	private void assertDistanceIsNotNegative(double distance) throws RuntimeException{
+	private void assertDistanceIsNotNegative(double distance){
 		if(distance < 0){
 			throw new RuntimeException("distance has to be not negative");
 		}
