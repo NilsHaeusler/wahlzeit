@@ -44,19 +44,19 @@ public class SphericCoordinate extends AbstractCoordinate {
 		this.radius = radius;
 	}
 	
-	private void assertIsValidRadius(double radius) throws IllegalArgumentException{
+	private void assertIsValidRadius(double radius){
 		if(radius < 0){
 			throw new IllegalArgumentException("radius has to be positiv");
 		}
 	}
 
-	private void assertIsValidLongitude(double longitude) throws IllegalArgumentException{
+	private void assertIsValidLongitude(double longitude){
 		if(longitude > LONGITUDE_MAX || longitude < LONGITUDE_MIN){
 			throw new IllegalArgumentException("longitude has to be between "+LONGITUDE_MIN+" and "+LONGITUDE_MAX);
 		}
 	}
 
-	private void assertIsValidLatitude(double latitude) throws IllegalArgumentException{
+	private void assertIsValidLatitude(double latitude){
 		if(latitude > LATITUDE_MAX || latitude < LATITUDE_MIN){
 			throw new IllegalArgumentException("latitude has to be between "+LATITUDE_MIN+" and "+LATITUDE_MAX);
 		}

@@ -77,17 +77,17 @@ public abstract class AbstractCoordinate implements Coordinate{
 	/** @return Cartesian z value */
 	public abstract double getZ();
 	
-	private void assertClassInvariants() throws IllegalStateException{
+	private void assertClassInvariants(){
 		//no class Invariants yet
 	}
 
-	private void assertNotNull(Coordinate other) throws IllegalArgumentException{
+	private void assertNotNull(Coordinate other){
 		if(other == null){
 			throw new IllegalArgumentException("Coordinate must not be null");
 		}
 	}
 	
-	private void assertIsInstanceOfAbstractCoordinate(Coordinate other) throws IllegalArgumentException{
+	private void assertIsInstanceOfAbstractCoordinate(Coordinate other){
 		if(!(other instanceof AbstractCoordinate)){
 			throw new IllegalArgumentException("Coordinate not compatible");
 		}
