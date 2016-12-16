@@ -1,5 +1,7 @@
 package org.wahlzeit.model;
 
+import java.util.HashMap;
+
 /**
  * A Coordinate represents polar coordinates of one location on earth
  *
@@ -29,11 +31,13 @@ public class SphericCoordinate extends AbstractCoordinate {
 	/** should be Earth Radius for any point on surface */
 	protected final double radius;
 	
-	public SphericCoordinate(double latitude, double longitude) throws IllegalArgumentException{
+	private static HashMap<Integer, SphericCoordinate> map = new HashMap<Integer, SphericCoordinate>();
+	
+	private SphericCoordinate(double latitude, double longitude){
 		this(latitude, longitude, EARTH_KM_RADIUS);
 	}
 	
-	public SphericCoordinate(double latitude, double longitude, double radius) throws IllegalArgumentException{
+	private SphericCoordinate(double latitude, double longitude, double radius){
 		//assert parameters in valid range
 		assertIsValidLongitude(longitude);
 		assertIsValidLatitude(latitude);
@@ -63,7 +67,7 @@ public class SphericCoordinate extends AbstractCoordinate {
 	}
 	
 	public CartesianCoordinate asCartesianCoordinate(){
-		return new CartesianCoordinate(getX(), getY(), getZ());
+		return CartesianCoordinate.getOrCreateCoordinate(getX(), getY(), getZ());
 	}
 
 	@Override
@@ -82,5 +86,68 @@ public class SphericCoordinate extends AbstractCoordinate {
 	public double getZ() {
 		double z = radius*Math.cos(Math.toRadians(longitude));
 		return z;
+	}
+	
+	public static SphericCoordinate getOrCreateCoordinate(double latitude, double longitude, double radius){
+		Tupel tupel = new Tupel(latitude, longitude, radius);
+		if(map.containsKey(tupel.hashCode())){
+			return map.get(tupel.hashCode());
+		}else{
+			synchronized (CartesianCoordinate.class) {
+				SphericCoordinate coordinate = new SphericCoordinate(latitude, longitude, radius);
+				map.put(tupel.hashCode(), coordinate);
+				return coordinate;
+			}
+		}
+	}
+	
+	public static SphericCoordinate getOrCreateCoordinate(double latitude, double longitude){
+		Tupel tupel = new Tupel(latitude, longitude, EARTH_KM_RADIUS);
+		if(map.containsKey(tupel.hashCode())){
+			return map.get(tupel.hashCode());
+		}else{
+			synchronized (CartesianCoordinate.class) {
+				SphericCoordinate coordinate = new SphericCoordinate(latitude, longitude);
+				map.put(tupel.hashCode(), coordinate);
+				return coordinate;
+			}
+		}
+	}
+	
+	private static class Tupel{
+		final double latitude, longitude, radius;
+		
+		private Tupel(double latitude, double longitude, double radius){
+			this.latitude = latitude;
+			this.longitude = longitude;
+			this.radius = radius;
+		}
+		
+		public boolean equals(Object o){
+			if((o == null) || !(o instanceof Tupel)){
+				return false;
+			}
+			
+			Tupel tupel = (Tupel) o;
+			if(latitude == tupel.latitude){
+				return false;
+			}else if(longitude == tupel.longitude){
+				return false;
+			}else if(radius == tupel.radius){
+				return false;
+			}else{
+				return true;
+			}
+		}
+		
+		public int hashCode(){
+			String string = toString();
+			int hashCode = string.hashCode();
+			return hashCode;
+		}
+		
+		public String toString(){
+			return String.valueOf(latitude) + " " + String.valueOf(longitude) + " " + String.valueOf(radius);
+		}
 	}
 }

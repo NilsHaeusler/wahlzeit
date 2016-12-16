@@ -20,7 +20,7 @@ public class Location {
 	 * @param longitude
 	 */
 	public Location(double latitude, double longitude){
-		coordinate = new SphericCoordinate(latitude, longitude);
+		coordinate = SphericCoordinate.getOrCreateCoordinate(latitude, longitude);
 	}
 	
 	/**
@@ -30,7 +30,7 @@ public class Location {
 	 * @param z
 	 */
 	public Location(double x, double y, double z){
-		coordinate = new CartesianCoordinate(x, y, z);
+		coordinate = CartesianCoordinate.getOrCreateCoordinate(x, y, z);
 	}
 	
 	/**
