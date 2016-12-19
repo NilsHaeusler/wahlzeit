@@ -88,26 +88,24 @@ public class SphericCoordinate extends AbstractCoordinate {
 		return z;
 	}
 	
-	public static SphericCoordinate getOrCreateCoordinate(double latitude, double longitude, double radius){
+	public synchronized static SphericCoordinate getOrCreateCoordinate(double latitude, double longitude, double radius){
 		Tripel tripel = new Tripel(latitude, longitude, radius);
 		if(map.containsKey(tripel.hashCode())){
 			return map.get(tripel.hashCode());
 		}else{
-			synchronized (CartesianCoordinate.class) {
-				SphericCoordinate coordinate = new SphericCoordinate(latitude, longitude, radius);
-				map.put(tripel.hashCode(), coordinate);
-				return coordinate;
-			}
+			SphericCoordinate coordinate = new SphericCoordinate(latitude, longitude, radius);
+			map.put(tripel.hashCode(), coordinate);
+			return coordinate;
 		}
 	}
 	
 	public synchronized static SphericCoordinate getOrCreateCoordinate(double latitude, double longitude){
-		Tripel tupel = new Tripel(latitude, longitude, EARTH_KM_RADIUS);
-		if(map.containsKey(tupel.hashCode())){
-			return map.get(tupel.hashCode());
+		Tripel tripel = new Tripel(latitude, longitude, EARTH_KM_RADIUS);
+		if(map.containsKey(tripel.hashCode())){
+			return map.get(tripel.hashCode());
 		}else{
 			SphericCoordinate coordinate = new SphericCoordinate(latitude, longitude);
-			map.put(tupel.hashCode(), coordinate);
+			map.put(tripel.hashCode(), coordinate);
 			return coordinate;
 		}
 	}
