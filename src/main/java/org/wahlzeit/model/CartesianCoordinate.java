@@ -27,34 +27,32 @@ public class CartesianCoordinate extends AbstractCoordinate{
 		return z;
 	}
 	
-	public static CartesianCoordinate getOrCreateCoordinate(double x, double y, double z){
-		Tupel tupel = new Tupel(x, y, z);
-		if(map.containsKey(tupel.hashCode())){
-			return map.get(tupel.hashCode());
+	public synchronized static CartesianCoordinate getOrCreateCoordinate(double x, double y, double z){
+		Tripel tripel = new Tripel(x, y, z);
+		if(map.containsKey(tripel.hashCode())){
+			return map.get(tripel.hashCode());
 		}else{
-			synchronized (CartesianCoordinate.class) {
-				CartesianCoordinate coordinate = new CartesianCoordinate(x, y, z);
-				map.put(tupel.hashCode(), coordinate);
-				return coordinate;
-			}
+			CartesianCoordinate coordinate = new CartesianCoordinate(x, y, z);
+			map.put(tripel.hashCode(), coordinate);
+			return coordinate;
 		}
 	}
 	
-	private static class Tupel{
+	private static class Tripel{
 		final double x, y, z;
 		
-		private Tupel(double x, double y, double z){
+		private Tripel(double x, double y, double z){
 			this.x = x;
 			this.y = y;
 			this.z = z;
 		}
 		
 		public boolean equals(Object o){
-			if((o == null) || !(o instanceof Tupel)){
+			if((o == null) || !(o instanceof Tripel)){
 				return false;
 			}
 			
-			Tupel tupel = (Tupel) o;
+			Tripel tupel = (Tripel) o;
 			if(x == tupel.x){
 				return false;
 			}else if(y == tupel.y){

@@ -89,46 +89,44 @@ public class SphericCoordinate extends AbstractCoordinate {
 	}
 	
 	public static SphericCoordinate getOrCreateCoordinate(double latitude, double longitude, double radius){
-		Tupel tupel = new Tupel(latitude, longitude, radius);
-		if(map.containsKey(tupel.hashCode())){
-			return map.get(tupel.hashCode());
+		Tripel tripel = new Tripel(latitude, longitude, radius);
+		if(map.containsKey(tripel.hashCode())){
+			return map.get(tripel.hashCode());
 		}else{
 			synchronized (CartesianCoordinate.class) {
 				SphericCoordinate coordinate = new SphericCoordinate(latitude, longitude, radius);
-				map.put(tupel.hashCode(), coordinate);
+				map.put(tripel.hashCode(), coordinate);
 				return coordinate;
 			}
 		}
 	}
 	
-	public static SphericCoordinate getOrCreateCoordinate(double latitude, double longitude){
-		Tupel tupel = new Tupel(latitude, longitude, EARTH_KM_RADIUS);
+	public synchronized static SphericCoordinate getOrCreateCoordinate(double latitude, double longitude){
+		Tripel tupel = new Tripel(latitude, longitude, EARTH_KM_RADIUS);
 		if(map.containsKey(tupel.hashCode())){
 			return map.get(tupel.hashCode());
 		}else{
-			synchronized (CartesianCoordinate.class) {
-				SphericCoordinate coordinate = new SphericCoordinate(latitude, longitude);
-				map.put(tupel.hashCode(), coordinate);
-				return coordinate;
-			}
+			SphericCoordinate coordinate = new SphericCoordinate(latitude, longitude);
+			map.put(tupel.hashCode(), coordinate);
+			return coordinate;
 		}
 	}
 	
-	private static class Tupel{
+	private static class Tripel{
 		final double latitude, longitude, radius;
 		
-		private Tupel(double latitude, double longitude, double radius){
+		private Tripel(double latitude, double longitude, double radius){
 			this.latitude = latitude;
 			this.longitude = longitude;
 			this.radius = radius;
 		}
 		
 		public boolean equals(Object o){
-			if((o == null) || !(o instanceof Tupel)){
+			if((o == null) || !(o instanceof Tripel)){
 				return false;
 			}
 			
-			Tupel tupel = (Tupel) o;
+			Tripel tupel = (Tripel) o;
 			if(latitude == tupel.latitude){
 				return false;
 			}else if(longitude == tupel.longitude){
