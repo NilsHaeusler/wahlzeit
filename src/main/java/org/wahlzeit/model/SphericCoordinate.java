@@ -1,6 +1,8 @@
 package org.wahlzeit.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * A Coordinate represents polar coordinates of one location on earth
@@ -31,7 +33,7 @@ public class SphericCoordinate extends AbstractCoordinate {
 	/** should be Earth Radius for any point on surface */
 	protected final double radius;
 	
-	private static HashMap<Integer, SphericCoordinate> map = new HashMap<Integer, SphericCoordinate>();
+	private static HashMap<Integer, List<SphericCoordinate>> map = new HashMap<Integer, List<SphericCoordinate>>();
 	
 	private SphericCoordinate(double latitude, double longitude){
 		this(latitude, longitude, EARTH_KM_RADIUS);
@@ -91,23 +93,27 @@ public class SphericCoordinate extends AbstractCoordinate {
 	public synchronized static SphericCoordinate getOrCreateCoordinate(double latitude, double longitude, double radius){
 		Tripel tripel = new Tripel(latitude, longitude, radius);
 		if(map.containsKey(tripel.hashCode())){
-			return map.get(tripel.hashCode());
+			SphericCoordinate coordinate = new SphericCoordinate(latitude, longitude, radius);
+			List<SphericCoordinate> list = map.get(tripel.hashCode());
+			for(SphericCoordinate coord : list){
+				if(coord.getX() == coordinate.getX() && coord.getY() == coordinate.getY() && coord.getZ() == coordinate.getZ()){
+					return coord;
+				}
+			}
+			list.add(coordinate);
+			map.put(tripel.hashCode(), list);
+			return coordinate;
 		}else{
 			SphericCoordinate coordinate = new SphericCoordinate(latitude, longitude, radius);
-			map.put(tripel.hashCode(), coordinate);
+			List<SphericCoordinate> list = new ArrayList<SphericCoordinate>();
+			list.add(coordinate);
+			map.put(tripel.hashCode(), list);
 			return coordinate;
 		}
 	}
 	
 	public synchronized static SphericCoordinate getOrCreateCoordinate(double latitude, double longitude){
-		Tripel tripel = new Tripel(latitude, longitude, EARTH_KM_RADIUS);
-		if(map.containsKey(tripel.hashCode())){
-			return map.get(tripel.hashCode());
-		}else{
-			SphericCoordinate coordinate = new SphericCoordinate(latitude, longitude);
-			map.put(tripel.hashCode(), coordinate);
-			return coordinate;
-		}
+		return SphericCoordinate.getOrCreateCoordinate(latitude, longitude, EARTH_KM_RADIUS);
 	}
 	
 	private static class Tripel{

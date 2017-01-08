@@ -27,6 +27,10 @@ import java.util.logging.Logger;
 /**
  * An Abstract Factory for creating photos and related objects.
  */
+@PatternInstance(
+		patternName = "Factory",
+		participants = {"PhotoFactory", "Photo"}
+)
 public class PhotoFactory {
 
 	protected static final Logger log = Logger.getLogger(PhotoFactory.class.getName());
@@ -48,11 +52,12 @@ public class PhotoFactory {
 	public static void initialize() {
 		getInstance(); // drops result due to getInstance() side-effects
 	}
-
+	
 	/**
 	 * Public singleton access method.
 	 */
-	public static synchronized PhotoFactory getInstance() {
+	@PatternInstance(patternName = "Singleton") 
+	static synchronized PhotoFactory getInstance() {
 		if (instance == null) {
 			log.config(LogBuilder.createSystemMessage().addAction("setting generic PhotoFactory").toString());
 			setInstance(new PhotoFactory());

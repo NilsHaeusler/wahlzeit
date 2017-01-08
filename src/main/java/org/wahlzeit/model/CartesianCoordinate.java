@@ -1,10 +1,12 @@
 package org.wahlzeit.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class CartesianCoordinate extends AbstractCoordinate{
 	protected final double x, y, z;
-	private static HashMap<Integer, CartesianCoordinate> map = new HashMap<Integer, CartesianCoordinate>();
+	private static HashMap<Integer, List<CartesianCoordinate>> map = new HashMap<Integer, List<CartesianCoordinate>>();
 	
 	private CartesianCoordinate(double x, double y, double z) {
 		this.x = x;
@@ -30,10 +32,21 @@ public class CartesianCoordinate extends AbstractCoordinate{
 	public synchronized static CartesianCoordinate getOrCreateCoordinate(double x, double y, double z){
 		Tripel tripel = new Tripel(x, y, z);
 		if(map.containsKey(tripel.hashCode())){
-			return map.get(tripel.hashCode());
+			List<CartesianCoordinate> list = map.get(tripel.hashCode());
+			for(CartesianCoordinate coord : list){
+				if(coord.getX() == x && coord.getY() == y && coord.getZ() == z){
+					return coord;
+				}
+			}
+			CartesianCoordinate coordinate = new CartesianCoordinate(x, y, z);
+			list.add(coordinate);
+			map.put(tripel.hashCode(), list);
+			return coordinate;
 		}else{
 			CartesianCoordinate coordinate = new CartesianCoordinate(x, y, z);
-			map.put(tripel.hashCode(), coordinate);
+			List<CartesianCoordinate> list = new ArrayList<CartesianCoordinate>();
+			list.add(coordinate);
+			map.put(tripel.hashCode(), list);
 			return coordinate;
 		}
 	}
