@@ -26,11 +26,10 @@ public class CarPhotoTest {
 	
 	@Test
 	public void getterAndSetter() {
+		Car car = CarManager.getInstance().createCar("FanCar D7", 120, "FIN01022121223");
 		CarPhoto carPhoto = new CarPhoto();
-		carPhoto.setCarMake(CarMake.AUDI);
-		carPhoto.setMaximumSpeed(20);
+		carPhoto.setCar(car);
 		assertNotNull(carPhoto);
-		assertEquals(20, carPhoto.getMaximumSpeed(), 0);
-		assertEquals(carPhoto.getCarMake(), CarMake.AUDI);
+		assertNotNull(carPhoto.getCar());
 	}
 }

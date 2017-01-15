@@ -7,8 +7,7 @@ import com.googlecode.objectify.annotation.Subclass;
 
 @Subclass
 public class CarPhoto extends Photo{
-	private CarMake carMake = CarMake.UNKNOWN;
-	private float maximumSpeed = 0;
+	private Car car;
 	
 	public CarPhoto(){
 		super();
@@ -19,28 +18,18 @@ public class CarPhoto extends Photo{
 		assertPhotoId(myId);
 	}
 	
-	public CarPhoto(PhotoId myId, CarMake carMake, float maximumSpeed){
+	public CarPhoto(PhotoId myId, Car car){
 		super(myId);
 		//check parameters
 		assertPhotoId(myId);
-		assertCarMake(carMake);
-		assertMaximumSpeed(maximumSpeed);
+		assertCar(car);
 		
 		//set variables
-		setCarMake(carMake);
-		setMaximumSpeed(maximumSpeed);
+		setCar(car);
 	}
 
-	private void assertMaximumSpeed(float maximumSpeed) {
-		if(maximumSpeed < 0){
-			throw new IllegalArgumentException("maximumSpeed has to be positive");
-		}
-	}
-
-	private void assertCarMake(CarMake carMake) {
-		if(carMake == null){
-			throw new IllegalArgumentException("carMake must be set");
-		}
+	private void assertCar(Car car) {
+		//no assertion
 	}
 	
 	private void assertPhotoId(PhotoId myId) {
@@ -49,19 +38,12 @@ public class CarPhoto extends Photo{
 		}
 	}
 
-	public CarMake getCarMake() {
-		return carMake;
+	public Car getCar() {
+		return car;
 	}
 
-	public void setCarMake(CarMake carMake) {
-		this.carMake = carMake;
-	}
-
-	public float getMaximumSpeed() {
-		return maximumSpeed;
-	}
-
-	public void setMaximumSpeed(float maximumSpeed) {
-		this.maximumSpeed = maximumSpeed;
+	public void setCar(Car car) {
+		assertCar(car);
+		this.car = car;
 	}
 }

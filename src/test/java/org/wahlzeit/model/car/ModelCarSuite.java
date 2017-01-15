@@ -5,7 +5,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ CarPhotoFactoryTest.class, CarPhotoManagerTest.class, CarPhotoTest.class })
+@SuiteClasses({ CarPhotoFactoryTest.class, CarPhotoManagerTest.class, CarPhotoTest.class, CarTest.class })
 public class ModelCarSuite {
 
 }

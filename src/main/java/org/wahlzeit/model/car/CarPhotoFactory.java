@@ -23,7 +23,15 @@ public class CarPhotoFactory extends PhotoFactory {
 	@Override
 	public Photo createPhoto(PhotoId id) {
 		assertPhotoId(id);
-		return new CarPhoto(id);
+		CarPhoto carPhoto = new CarPhoto(id);
+		return carPhoto;
+	}
+	
+	public Photo createPhoto(PhotoId id, Car car) {
+		assertPhotoId(id);
+		CarPhoto carPhoto = new CarPhoto(id);
+		carPhoto.setCar(car);
+		return carPhoto;
 	}
 
 	private void assertPhotoId(PhotoId id) {
