@@ -1,0 +1,35 @@
+public collaboration CarPhoto-Car{
+	public role CarPhoto{
+		//Client
+		public void setCar(Car car);
+		public Car getCar();
+	}
+	
+	public role Car{
+		//Service
+	}
+}
+
+public collaboration CarType-Car{
+	public role CarType{
+		//Type Object
+		public Car createCar(String fahrgestellnummer);
+	}
+	
+	public role Car{
+		//Base Object
+		public void setCarType(CarType carType);
+		public CarType getCarType();
+	}
+}
+
+public collaboration CarManager-Car{
+	public role CarManager{
+		//Manager
+		public Car createCar(String model, float maxSpeed, String fahrgestellnummer);
+	}
+	
+	public role Car{
+		//Element
+	}
+}
